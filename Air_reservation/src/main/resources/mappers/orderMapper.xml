@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.psj.air_reservation.dao.OrderDAO">
+
+	<select id="getAirSearchDep" resultType="com.psj.air_reservation.rv.AirDayVO">
+	  SELECT * FROM AIR_RV WHERE AIR_RV_DEP = #{AIR_RV_DEP} AND AIR_RV_ARR = #{AIR_RV_ARR} AND AIR_RV_DAY = #{AIR_RV_GO} ORDER BY AIR_RV_IDX DESC;
+	</select>
+	
+	<select id="getAirSearchArr" resultType="com.psj.air_reservation.rv.AirDayVO">
+	  SELECT * FROM AIR_RV WHERE AIR_RV_DEP = #{AIR_RV_ARR} AND AIR_RV_ARR = #{AIR_RV_DEP} AND AIR_RV_DAY = #{AIR_RV_BACK} ORDER BY AIR_RV_IDX DESC;
+	</select>
+	
+	<select id="getfindList" resultType="com.psj.air_reservation.rv.AirDayVO">
+	  SELECT * FROM AIR_RV WHERE AIR_RV_IDX = #{AIR_RV_IDX};
+	</select>
+	
+	<select id="findway" resultType="com.psj.air_reservation.order.OrderVO">
+	  SELECT * FROM AIR_ORDER WHERE AIR_USER_MID = #{mid} AND AIR_ORDER_ORDER = 0;
+	</select>
+	
+	<insert id="listInput">
+	  INSERT INTO AIR_ORDER VALUES
+    (DEFAULT,
+    #{AIR_RV_IDX},
+    #{AIR_AIR_CODE},
+    #{AIR_USER_MID},
+    #{AIR_RV_DEP},
+    #{AIR_RV_ARR},
+    #{AIR_RV_DAY},
+    #{AIR_RV_TIME},
+    #{AIR_ORDER_WAY},
+    DEFAULT,DEFAULT,DEFAULT,#{AIR_RV_PP},DEFAULT);
+	</insert>
+	
+	<update id="listUpdate">
+		<if test="cnt == 1">
+			UPDATE AIR_ORDER SET AIR_ORDER_BC = #{cnt} WHERE AIR_RV_IDX = #{AIR_RV_IDX} AND AIR_USER_MID = #{AIR_USER_MID};
+		</if>
+		<if test="cnt == 2">
+			UPDATE AIR_ORDER SET AIR_ORDER_EC = #{cnt} WHERE AIR_RV_IDX = #{AIR_RV_IDX} AND AIR_USER_MID = #{AIR_USER_MID};
+		</if>
+		<if test="cnt == 3">
+			UPDATE AIR_ORDER SET AIR_ORDER_FC = #{cnt} WHERE AIR_RV_IDX = #{AIR_RV_IDX} AND AIR_USER_MID = #{AIR_USER_MID};
+		</if>
+	</update>
+
+</mapper>

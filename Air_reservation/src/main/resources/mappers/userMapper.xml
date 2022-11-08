@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.psj.air_reservation.dao.UserDAO">
+	<select id="getIdCheck" resultType="com.psj.air_reservation.user.UserVO">
+		SELECT * FROM AIR_USER WHERE AIR_USER_MID = #{AIR_USER_MID}; 
+	</select>
+	
+	<select id="getEmailCheck" resultType="com.psj.air_reservation.user.UserVO">
+		SELECT * FROM AIR_USER WHERE AIR_USER_EMAIL = #{AIR_USER_EMAIL}; 
+	</select>
+	
+	<select id="getMidConfirm" resultType="com.psj.air_reservation.user.UserVO">
+		SELECT * FROM AIR_USER WHERE AIR_USER_NAME = #{name} AND AIR_USER_EMAIL = #{email};
+	</select>
+	
+	<select id="getPwdConfirm" resultType="com.psj.air_reservation.user.UserVO">
+		SELECT * FROM AIR_USER WHERE AIR_USER_MID = #{mid} AND AIR_USER_NAME = #{name} AND AIR_USER_EMAIL = #{email};
+	</select>
+	
+	<insert id="setMemJoin">
+    INSERT INTO AIR_USER VALUES
+    (DEFAULT,
+    #{vo.AIR_USER_MID},
+    #{vo.AIR_USER_PWD},
+    #{vo.AIR_USER_NAME},
+    #{vo.AIR_USER_BIRTH},
+    #{vo.AIR_USER_NUMBER},
+    #{vo.AIR_USER_EMAIL},
+    #{vo.AIR_USER_ADDRESS},
+    DEFAULT,DEFAULT,DEFAULT,DEFAULT);
+	</insert>
+	
+	<update id="setPwdChange">
+		UPDATE AIR_USER SET AIR_USER_PWD = #{pwd} WHERE AIR_USER_MID = #{mid};
+	</update>
+	
+	<update id="setMemDelete">
+		UPDATE AIR_USER SET AIR_USER_DEL = 'OK' WHERE AIR_USER_MID = #{mid};
+	</update>
+	
+	<update id="setMyUpdate">
+		UPDATE AIR_USER SET 
+		AIR_USER_PWD=#{vo.AIR_USER_PWD},
+		AIR_USER_NAME=#{vo.AIR_USER_NAME},
+    AIR_USER_BIRTH=#{vo.AIR_USER_BIRTH},
+    AIR_USER_NUMBER=#{vo.AIR_USER_NUMBER},
+    AIR_USER_EMAIL=#{vo.AIR_USER_EMAIL},
+    AIR_USER_ADDRESS=#{vo.AIR_USER_ADDRESS} 
+    WHERE AIR_USER_MID=#{vo.AIR_USER_MID};
+	</update>
+	
+</mapper>

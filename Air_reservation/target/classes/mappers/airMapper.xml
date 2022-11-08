@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.psj.air_reservation.dao.RvDAO">
+
+	<select id="viewCnt" resultType="int">
+		SELECT COUNT(*) FROM AIR_RV;
+	</select>
+
+	<select id="getAirList" resultType="com.psj.air_reservation.rv.AirVO">
+		SELECT * FROM AIR_NAME ORDER BY AIR_AIR_CODE DESC;
+	</select>
+	
+	<select id="getAirOne" resultType="com.psj.air_reservation.rv.AirVO">
+	  SELECT * FROM AIR_NAME WHERE AIR_AIR_CODE = #{AIR_AIR_CODE} or AIR_AIR_NAME = #{AIR_AIR_NAME};
+	</select>
+	
+	<select id="getAirDayList" resultType="com.psj.air_reservation.rv.AirDayVO">
+	  SELECT * FROM AIR_RV ORDER BY AIR_RV_IDX DESC LIMIT #{startIndexNo}, #{pageSize};
+	</select>
+		
+	<insert id="airInput">
+	  INSERT INTO AIR_NAME VALUE(#{vo.AIR_AIR_CODE},#{vo.AIR_AIR_NAME});
+	</insert>
+		
+	<insert id="getAirInput">
+	  INSERT INTO AIR_RV VALUE(
+	  DEFAULT,
+	  #{vo.AIR_AIR_CODE},
+	  #{vo.AIR_RV_DEP},
+	  #{vo.AIR_RV_ARR},
+	  #{vo.AIR_RV_DAY},
+	  #{vo.AIR_RV_TIME},
+	  #{vo.AIR_RV_FS},
+	  #{vo.AIR_RV_BS},
+	  #{vo.AIR_RV_ES},
+	  #{vo.AIR_RV_FP},
+	  #{vo.AIR_RV_BP},
+	  #{vo.AIR_RV_EP}
+	  );
+	</insert>
+	
+	<delete id="delAir">
+	  DELETE FROM AIR_NAME WHERE AIR_AIR_CODE = #{AIR_AIR_CODE};
+	</delete>
+	
+</mapper>

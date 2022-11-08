@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.psj.air_reservation.dao.AdminDAO">
+
+	<select id="getNewMember" resultType="int">
+		SELECT COUNT(*) FROM AIR_USER WHERE AIR_USER_LEVEL = 4;
+	</select>
+	
+	<select id="totRecCnt" resultType="int">
+		<if test="level == 99">SELECT COUNT(*) FROM AIR_USER;</if>
+		<if test="level != 99">SELECT COUNT(*) FROM AIR_USER WHERE AIR_USER_LEVEL = #{level};</if>
+	</select>
+	
+	<select id="totRecCntMid" resultType="int">
+		SELECT COUNT(*) FROM AIR_USER WHERE AIR_USER_MID LIKE CONCAT('%',#{mid},'%');
+	</select>
+	
+	<select id="getMemberList" resultType="com.psj.air_reservation.user.UserVO">
+		<if test="level == 99">SELECT * FROM AIR_USER ORDER BY AIR_USER_IDX DESC LIMIT #{startIndexNo}, #{pageSize};</if>
+		<if test="level != 99">SELECT * FROM AIR_USER WHERE AIR_USER_LEVEL = #{level} ORDER BY AIR_USER_IDX DESC LIMIT #{startIndexNo}, #{pageSize};</if>
+	</select>
+	
+	<select id="getMemberListMid" resultType="com.psj.air_reservation.user.UserVO">
+		SELECT * FROM AIR_USER WHERE AIR_USER_MID LIKE CONCAT('%',#{mid},'%') ORDER BY AIR_USER_IDX DESC LIMIT #{startIndexNo}, #{pageSize};
+	</select>
+	
+	<update id="setLevelUpdate">
+		UPDATE AIR_USER SET AIR_USER_LEVEL = #{level} WHERE AIR_USER_IDX = #{idx};
+	</update>
+	
+	<update id="setMemberLevel">
+		UPDATE AIR_USER SET AIR_USER_LEVEL = #{level} WHERE AIR_USER_IDX = #{idx};
+	</update>
+	
+	<delete id="setMemberDelete">
+		DELETE FROM AIR_USER WHERE AIR_USER_IDX = #{idx};
+	</delete>
+</mapper>
